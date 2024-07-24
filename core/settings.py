@@ -98,7 +98,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
+#Hello tis test
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
