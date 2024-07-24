@@ -18,8 +18,8 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     brand = models.CharField(max_length=200, default="Generic")
     description = models.TextField(default="None")
-    primary_img = models.ImageField(upload_to='store/static/media/products', default=None)
-    second_img = models.ImageField(upload_to='store/static/media/products',default=None)
+    primary_img = models.ImageField(upload_to='products', default=None)
+    second_img = models.ImageField(upload_to='products',default=None)
     stock = models.IntegerField(default=100)
 
     def get_format_price(self):
