@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -106,11 +106,11 @@ CONNECTION_KEY_POSTGRESQL = os.getenv('DATABASE_KEY')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'store_database_postgresql',
-        'USER': 'felipe',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'products_database',
+        'USER': 'julian',
         'PASSWORD': CONNECTION_KEY_POSTGRESQL,
-        'PORT': '5432'
+        'PORT': '3306'
     }
 }
 

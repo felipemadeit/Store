@@ -105,7 +105,7 @@ def home_view(request):
 
     processors = Product.objects.filter(category=1)
     cards = Product.objects.filter(category=2)
-    laptops = Product.objects.filter(category=3)
+    laptops = Product.objects.filter(category_id=3)
     keyboards = Product.objects.filter(category=4)
     
     """
