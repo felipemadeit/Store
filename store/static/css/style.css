@@ -1,5 +1,4 @@
 * {
-    
     margin: 0;
     padding: 0;
     font-family: "Asap Condensed", sans-serif;
@@ -1525,7 +1524,7 @@ input[type="password"] {
     display: flex;
     position:relative;
     margin-top: 20px;
-   
+
     bottom: 0px;
     gap: 70px;
     width: 100%;
@@ -3002,14 +3001,19 @@ container-creator {
         display: none;
     }
 
+
     .container-prev-next {
+        position: absolute;
         width: 100%;
         margin-left: 0px;
+        left: 0px;
     }
 
     .container-filter {
+        position: absolute;
         width: 100%;
-        margin-left: 0px;
+        left: 0px;
+        gap: 20px;
     }
 
     .container-components {
@@ -3019,6 +3023,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
 
     .component-card {
@@ -3034,6 +3039,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-cards {
@@ -3043,6 +3049,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     .container-components-rams {
         position: absolute;
@@ -3051,6 +3058,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-motherboards {
@@ -3060,6 +3068,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-storages {
@@ -3069,6 +3078,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-case {
@@ -3078,6 +3088,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-headphone {
@@ -3087,6 +3098,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-keyboard {
@@ -3096,6 +3108,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-chairs {
@@ -3105,6 +3118,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-accessories{
@@ -3114,6 +3128,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
     }
     
     .container-components-laptops {
@@ -3123,6 +3138,7 @@ container-creator {
         transform: translate(-50%);
         width: 100%;
         grid-template-columns: repeat(1, 4fr);
+        padding: 50px 0;
         
     }
 
@@ -3653,6 +3669,46 @@ container-creator {
 
     .container-info {
         margin-top: 50px;
+    }
+
+    .text-add {
+        display: flex;
+        margin-top: 270px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        margin-left: 0px;
+        left: 50%;
+        transform: translate(-50%);
+        width: 100%;
+        padding: 0;
+    }
+
+    .text-cart-modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        margin-left: 0px;
+        margin-top: 20px;
+        left: 0px;
+        
+    }
+
+    .preview-added {
+    }
+
+    .btn-confirm {
+        margin-top: 0px;
+        margin-left: 0px;
+        position: relative;
+    }
+
+    .btn-cancel {
+        margin-top: 0px;
+        margin-left: 0px;
+        position: relative;
     }
 
 

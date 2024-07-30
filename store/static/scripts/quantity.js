@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Carrusel
     const track = document.querySelector('.carousel-track');
     const items = document.querySelectorAll('.carousel-item');
     const prevButton = document.querySelector('.carousel-prev');
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Botones de cantidad
     const decrementBtn = document.getElementById('decrement');
     const incrementBtn = document.getElementById('increment');
     const quantityInput = document.getElementById('quantity');
@@ -33,18 +35,18 @@ document.addEventListener('DOMContentLoaded', function() {
         decrementBtn.addEventListener('click', function() {
             decreaseQuantity();
         });
-
+    
         incrementBtn.addEventListener('click', function() {
             increaseQuantity();
         });
-
+    
         function decreaseQuantity() {
             let currentValue = parseInt(quantityInput.value, 10);
             if (currentValue > 1) {
                 quantityInput.value = currentValue - 1;
             }
         }
-
+    
         function increaseQuantity() {
             let currentValue = parseInt(quantityInput.value, 10);
             if (currentValue < 15) {
@@ -53,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Funciones para el carrito
     const buttonAdd = document.querySelector('.btn-add');
     const buttonConfirm = document.querySelector('.btn-confirm');
     const buttonCancel = document.querySelector('.btn-cancel');
@@ -60,16 +63,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const quantityPlaceholder = document.querySelectorAll('.quantity-placeholder');
     const notificationSuccess = document.querySelector('.notification-success');
     const addToCartForm = document.querySelector('#addToCartForm');
-    const unitPrice = parseFloat(document.querySelector('.total-price').textContent);
+    const unitPrice = document.querySelector('.total-price').textContent;
 
     if (!buttonAdd || !buttonConfirm || !buttonCancel || !modalConfirm || !quantityInput || !unitPrice) {
-        return;
+        return; // Salir si algún elemento no se encuentra
     }
 
     function formatPrice(amount) {
         return amount.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-    }
-
+    } 
+    
     function addCart() {
         const totalPrice = unitPrice * parseFloat(quantityInput.value);
         const formatedPrice = formatPrice(totalPrice);
@@ -89,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     buttonConfirm.addEventListener("click", function() {
-        buttonConfirm.disabled = true;
         const formData = new FormData(addToCartForm);
         const url = addToCartForm.getAttribute('action');
 
@@ -108,15 +110,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 setTimeout(function() {
                     notificationSuccess.classList.remove('visible');
+                    // Recargar la página después de agregar al carrito
                     window.location.reload();
                 }, 2500);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-        })
-        .finally(() => {
-            buttonConfirm.disabled = false;
         });
     });
+
+    function moveElements()  {
+            const widthThreshold = 400;
+            const quantitySelector = document.getElementById('quantitySelector');
+            const btnAdd = document.getElementById('btnAdd');
+            const stickyMobilePanel = document.getElementById('stickyMobilePanel');
+            const form = document.getElementById('addToCartForm');
+
+            if (window.innerWidth <= widthThreshold) {
+                stickyMobilePanel.appendChild(quantitySelector);
+                stickyMobilePanel.appendChild(btnAdd);
+            } else {
+                form.insertBefore(quantitySelector, form.firstChild);
+                form.appendChild(btnAdd);
+            }
+        }
+
+        window.addEventListener('resize', moveElements);
+        window.addEventListener('load', moveElements);
+    
 });

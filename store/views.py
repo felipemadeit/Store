@@ -736,7 +736,7 @@ def laptops_view (request):
     
     """
     
-    laptops_list = Product.objects.filter(category = 5)
+    laptops_list = Product.objects.filter(category = 3)
     
     order_by = request.GET.get('order', '')
     
