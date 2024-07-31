@@ -1,6 +1,7 @@
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import dj_database_url
 
 load_dotenv()
 
@@ -105,13 +106,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 CONNECTION_KEY_POSTGRESQL = os.getenv('DATABASE_KEY')
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'products_database',
-        'USER': 'julian',
-        'PASSWORD': CONNECTION_KEY_POSTGRESQL,
-        'PORT': '3306'
-    }
+    'default': 
+        dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    
 }
 
 
