@@ -6,6 +6,10 @@
     Home
 {% endblock %}
 {% block body %}
+
+<form id="csrf-token-form" style="display: none;">
+    {% csrf_token %}
+</form>
         
     <!--Section to principal section of home page-->
   
@@ -84,6 +88,7 @@
                             <span class="product-price">{{ processor.get_format_price }}</span>
                         </a>
                         <span class="span-stock"> &#x2713; Stock</span>
+                        <a class="add-cart" href="#" data-product-id="{{ processor.id }}">Add to cart</a>
                     </div>
                 {% endfor %}
             </div>
@@ -123,6 +128,7 @@
                             <span class="product-price">{{card.get_format_price}}</span>
                         </a>
                         <span class="span-stock"> &#x2713; Stock</span>
+                        <a class="add-cart" href="#" data-product-id="{{ card.id }}">Add to cart</a>
                     </div>
                 {% endfor %}
             </div>
@@ -163,6 +169,8 @@
                             <span class="product-price">{{laptop.get_format_price}}</span>
                         </a>
                         <span class="span-stock"> &#x2713; Stock</span>
+                        <a class="add-cart" href="#" data-product-id="{{ laptop.id }}">Add to cart</a>
+
                     </div>
                 {% endfor %}
             </div>
@@ -203,6 +211,7 @@
                             <span class="product-price">{{keyboard.get_format_price}}</span>
                         </a>
                         <span class="span-stock"> &#x2713; Stock</span>
+                        <a class="add-cart" href="#" data-product-id="{{ keyboard.id }}">Add to cart</a>
                     </div>
                 {% endfor %}
             </div>

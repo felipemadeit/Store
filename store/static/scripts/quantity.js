@@ -64,11 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const notificationSuccess = document.querySelector('.notification-success');
     const addToCartForm = document.querySelector('#addToCartForm');
     const unitPrice = document.querySelector('.total-price').textContent;
-
-    if (!buttonAdd || !buttonConfirm || !buttonCancel || !modalConfirm || !quantityInput || !unitPrice) {
-        return; // Salir si algún elemento no se encuentra
-    }
-
+    
     function formatPrice(amount) {
         return amount.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
     } 

@@ -19,8 +19,9 @@
                 <li>
                     <a href="{% url 'cart' %}">
                         <i class="fas fa-shopping-cart shopping-cart-icon"></i>
+                        <div class="total-cart" id="total-cart"></div>
                     </a>
-                    <div class="total-cart" id="total-cart"></div>
+                    
                 </li>
             {% else %}
                 <li><a href="{% url 'login' %}">Log in</a></li>

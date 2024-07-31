@@ -87,81 +87,88 @@ def remove_from_cart(request, item_id):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from .models import Product, Cart  # Ajusta esto según tus modelos
+
 def home_view(request):
-    
+    """
+    This function processes the main view.
+
+    1. The code obtains the products that are shown
+       on the page.
+
+    2. The other part communicates with the cohere API to get responses
+       for the chatbot.
     """
 
-        This function process the main view
-        
-        1. The code obtains the products that are shown
-            in the page.
-            
-        2. The other part communicates with the cohere api to get responses
-            for the chat bot
-    
-    """
-
-    # The following querysets are the products to display in the home page
-
+    # The following querysets are the products to display on the home page
     processors = Product.objects.filter(category=1)
     cards = Product.objects.filter(category=2)
     laptops = Product.objects.filter(category_id=3)
     keyboards = Product.objects.filter(category=4)
     
-    """
-    
-        The queryset products get all products in the database
-        and then it becomes a list (products_list) in which
-        specify the product name, description, price and id 
-    
-    """
-
+    # The queryset products get all products in the database
+    # and then it becomes a list (product_list) in which
+    # we specify the product name, description, price, and id
     products = Product.objects.all()
     
-    # List comprehession to create a list with all the products and their data
+    # List comprehension to create a list with all the products and their data
     product_list = [f"{product.name}: {product.description} price: {product.price} id: {product.id}" for product in products]
 
-    # if the api key is not valid
+    # if the API key is not valid
     if not COHERE_KEY:
         return JsonResponse({'error': 'Cohere API key is not set'}, status=500)
     
-    # Instantiate the client with the api key loaded from dotenv
+    # Instantiate the client with the API key loaded from dotenv
     co = cohere.Client(COHERE_KEY)
     
-    """
-
-        The following two lines of code validates if the dictionary
-        of the current session does not exist.
-    
-    """
-
+    # Initialize chat messages if not already in session
     if 'chat_messages' not in request.session:
-        # If the condition is met, initilize a empty list
         request.session['chat_messages'] = []
 
     chat_messages = request.session['chat_messages']
 
-    # If the user send a message
-    if request.method == 'POST':
-        
-        # Obtains the message from the html input
+    # Handle adding products to cart
+    if request.method == 'POST' and 'add_to_cart' in request.POST:
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+
+        product = get_object_or_404(Product, id=product_id)
+
+        # Retrieve or create a Cart item for the user and product.
+        cart_item, created = Cart.objects.get_or_create(
+            user=request.user,
+            product=product,
+            defaults={'quantity': quantity}
+        )
+
+        # If the Cart item already exists, update the quantity
+        if not created:
+            cart_item.quantity += quantity
+            cart_item.save()
+        else:
+            # If the Cart item was just created, ensure the quantity is set correctly
+            cart_item.quantity = quantity
+            cart_item.save()
+
+        # Check if the request is an AJAX request
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+    
+    # Handle chatbot messages
+    elif request.method == 'POST':
         user_message = request.POST.get('user_input')
         
-        # If the message exist
+        # If the message exists
         if user_message:
-            # Append the user message to the previous initilized messages list 
             chat_messages.append({'sender': 'user', 'text': user_message})
-            # Comunication with the cohere api
             try:
                 response = co.chat(
-                    # model to use
                     model="command-r-plus",
-                    # In terms of ai the temperature is the creative of the bot answer
                     temperature=0.7,
-                    # A parameter to finish the bot answer
-                    stop_sequences= ["usuario:"],    
-                    # The preamble is the context to the bot, the role and the products of the store
-                    preamble = f"""
+                    stop_sequences=["usuario:"],
+                    preamble=f"""
                                 PC Guru, eres el bot oficial para JPC, un ecommerce especializado en componentes de PC de gama media-alta. Tu misión es proporcionar recomendaciones personalizadas, responder preguntas técnicas sobre hardware y facilitar el proceso de compra. Tu objetivo es mejorar la experiencia del usuario ofreciendo conocimientos especializados y asistencia práctica en la selección de productos tecnológicos.
                                 A continuación, se proporciona una lista de productos disponibles: {', '.join(product_list)}. Cuando recomiendes un producto, siempre incluye el enlace al producto correspondiente en el formato HTML. El formato del enlace es: <a href="http://127.0.0.1:8000/product/<ID_DEL_PRODUCTO>">Product Link</a>.
                                 Recuerda siempre proporcionar enlaces precisos y asegurar que tus respuestas sean claras y útiles para el usuario.
@@ -169,22 +176,16 @@ def home_view(request):
                                 - Aquí tienes un enlace a nuestra tarjeta gráfica NVIDIA GeForce RTX 4070 SUPER TRINITY 12GB BLACK EDITION: <a href="http://127.0.0.1:8000/product/254">Link</a>
                                 Usuario: {user_message}
                                 PC Guru:""",
-                    
                     message=user_message,
-                                        
                 )
-                # Append to the messages list the bot message
                 chat_messages.append({'sender': 'bot', 'text': response.text})
             except:
-                # Message to show that the bot is not available
-                chat_messages.append({'sender': 'bot', 'text': 'In this moment i am not online'})
+                chat_messages.append({'sender': 'bot', 'text': 'In this moment I am not online'})
             
             request.session['chat_messages'] = chat_messages
             
-            # Return a json with the messages
             return JsonResponse({'chat_messages': chat_messages})
         
-    # Return the request with a dictioanry that contains the products and the bot responses
     return render(request, 'home.html', {
         'processors': processors,
         'cards': cards,
@@ -338,7 +339,7 @@ def ram_view (request):
 
     # SQL Query for get all ram and their data
 
-    ram = Product.objects.filter(category = 3)
+    ram = Product.objects.filter(category = 5)
     
     order_by = request.GET.get('order', '')
     
